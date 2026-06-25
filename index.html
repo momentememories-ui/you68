@@ -16,7 +16,6 @@
             position: relative;
         }
 
-        /* แก้ไข: ล็อกพื้นหลังให้นิ่งสนิท 100% ไม่ขยับตามการลากหรือสกรอลบนมือถือ */
         body::before {
             content: "";
             position: fixed;
@@ -60,7 +59,6 @@
             transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* เพิ่มคลาสสำหรับทำให้ช่อดอกไม้ขยับดึงดูดสายตา */
         #main-plant-img.attract-loop {
             animation: attractWobble 1.5s ease-in-out infinite alternate;
         }
@@ -107,30 +105,27 @@
             50% { margin-top: -12px; transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        /* คลาสแอนิเมชันสำหรับซองจดหมาย สั่นดุกดิกดึงดูดให้คนกด */
-        @keyframes envelopeWobble {
-            0% { transform: translate(-50%, -50%) scale(1.3) rotate(0deg); }
-            15% { transform: translate(-50%, -50%) scale(1.35) rotate(-5deg); }
-            30% { transform: translate(-50%, -50%) scale(1.3) rotate(4deg); }
-            45% { transform: translate(-50%, -50%) scale(1.35) rotate(-3deg); }
-            60% { transform: translate(-50%, -50%) scale(1.3) rotate(2deg); }
-            75% { transform: translate(-50%, -50%) scale(1.32) rotate(-1deg); }
-            100% { transform: translate(-50%, -50%) scale(1.3) rotate(0deg); }
+        /* แก้ไขแอนิเมชัน: ให้จดหมายขยับขึ้นลงแนวตรงเบาๆ ไม่เอียง */
+        @keyframes envelopeBounce {
+            0%, 100% { transform: translate(-50%, -50%) scale(1.3); }
+            50% { transform: translate(-50%, -52%) scale(1.35); }
         }
 
-        /* แก้ไข: ปรับ z-index และตำแหน่งให้แสดงผลอยู่ชั้นบนสุดเหนือช่อดอกไม้ */
+        /* แก้ไข: ซ่อนอยู่หลังช่อดอกไม้ (z-index: 2) และตั้งค่าตำแหน่งเริ่มต้นให้อยู่ต่ำลงไป */
         #box-btn {
             position: absolute; 
-            top: 35%; left: 50%; /* ปรับตำแหน่งขึ้นด้านบนของช่อดอกไม้ */
+            top: 60%; left: 50%; 
             width: 85px; height: auto; 
-            z-index: 200; cursor: pointer; 
+            z-index: 2; cursor: pointer; 
             transform: translate(-50%, -50%) scale(0);
-            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: top 1s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: none;
         }
-        /* คลาสสั่นดุกดิกตรงกลางและมีขนาดใหญ่ขึ้น */
+        
+        /* แก้ไข: คลาสที่จะสั่งให้จดหมายเลื่อนขึ้นมาตรงๆ ด้านบน และขยับเบาๆ */
         #box-btn.shake-center {
-            animation: envelopeWobble 1.2s ease-in-out infinite;
+            top: 35%; /* เลื่อนขึ้นมาจากหลังช่อดอกไม้ */
+            animation: envelopeBounce 2s ease-in-out infinite;
         }
 
         #photo-viewer {
@@ -331,12 +326,13 @@
             statusText.style.opacity = "0";
             plantContainer.onclick = null;
 
-            // ตั้งค่าซองจดหมายให้ปรากฏขึ้นด้านบนช่อดอกไม้
             boxBtn.style.display = "block";
             
+            // แก้ไข: เปลี่ยนค่า scale เพื่อให้จดหมายขยายและเลื่อนขึ้นมาแนวตรงในจังหวะเดียวกัน
             setTimeout(() => {
+                boxBtn.style.transform = "translate(-50%, -50%) scale(1.3)";
                 boxBtn.classList.add('shake-center');
-            }, 100);
+            }, 50);
         }
 
         let currentOriginElement = null;
