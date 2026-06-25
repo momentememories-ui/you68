@@ -105,26 +105,24 @@
             50% { margin-top: -12px; transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        /* แก้ไขแอนิเมชัน: ให้จดหมายขยับขึ้นลงแนวตรงเบาๆ ไม่เอียง */
         @keyframes envelopeBounce {
             0%, 100% { transform: translate(-50%, -50%) scale(1.3); }
             50% { transform: translate(-50%, -52%) scale(1.35); }
         }
 
-        /* แก้ไข: ซ่อนอยู่หลังช่อดอกไม้ (z-index: 2) และตั้งค่าตำแหน่งเริ่มต้นให้อยู่ต่ำลงไป */
+        /* แก้ไข: ปรับ z-index เป็น 100 เพื่อให้อยู่ด้านบนสุดเหนือช่อดอกไม้ ไม่หลบอยู่ข้างหลัง */
         #box-btn {
             position: absolute; 
             top: 60%; left: 50%; 
             width: 85px; height: auto; 
-            z-index: 2; cursor: pointer; 
+            z-index: 100; cursor: pointer; 
             transform: translate(-50%, -50%) scale(0);
             transition: top 1s cubic-bezier(0.175, 0.885, 0.32, 1.275), transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: none;
         }
         
-        /* แก้ไข: คลาสที่จะสั่งให้จดหมายเลื่อนขึ้นมาตรงๆ ด้านบน และขยับเบาๆ */
         #box-btn.shake-center {
-            top: 35%; /* เลื่อนขึ้นมาจากหลังช่อดอกไม้ */
+            top: 35%; 
             animation: envelopeBounce 2s ease-in-out infinite;
         }
 
@@ -328,7 +326,6 @@
 
             boxBtn.style.display = "block";
             
-            // แก้ไข: เปลี่ยนค่า scale เพื่อให้จดหมายขยายและเลื่อนขึ้นมาแนวตรงในจังหวะเดียวกัน
             setTimeout(() => {
                 boxBtn.style.transform = "translate(-50%, -50%) scale(1.3)";
                 boxBtn.classList.add('shake-center');
